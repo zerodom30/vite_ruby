@@ -112,6 +112,16 @@ class HelperTest < HelperTestCase
       link(href: '/vite-production/assets/vue.ec0a97cc.css'),
     ].join, vite_typescript_tag('main')
 
+    assert_similar [
+      %(<script src="/vite-production/assets/main.9dcad042.js" type="module"></script>),
+      %(<link rel="modulepreload" href="/vite-production/assets/log.818edfb8.js" as="script">),
+      %(<link rel="modulepreload" href="/vite-production/assets/vue.3002ada6.js" as="script">),
+      %(<link rel="modulepreload" href="/vite-production/assets/vendor.0f7c0ec3.js" as="script">),
+      link(href: '/vite-production/assets/app.517bf154.css'),
+      link(href: '/vite-production/assets/theme.e6d9734b.css'),
+      link(href: '/vite-production/assets/vue.ec0a97cc.css'),
+    ].join, vite_typescript_tag('main', crossorigin: nil)
+
     assert_equal vite_javascript_tag('main.ts'),
       vite_typescript_tag('main')
 
@@ -124,6 +134,9 @@ class HelperTest < HelperTestCase
 
       assert_equal %(<script src="/vite-dev/entrypoints/main.ts" crossorigin="anonymous" type="module"></script>),
         vite_typescript_tag('main')
+      
+      assert_equal %(<script src="/vite-dev/entrypoints/main.ts" type="module"></script>),
+        vite_typescript_tag('main', crossorigin: nil)
     }
   end
 
